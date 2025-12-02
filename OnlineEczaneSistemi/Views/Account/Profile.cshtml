@@ -1,0 +1,33 @@
+﻿@model OnlineEczaneSistemi.Models.User
+
+<head>
+    <link rel="stylesheet" href="~/css/AccountDesign/Profile.css" />
+</head>
+
+
+<div class="profile-container">
+    <div class="profile-card">
+
+        <div class="profile-image-container">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="Profil Resmi" />
+            }
+            else
+            {
+                <img src="/images/default-user.png" alt="Varsayılan Profil Resmi" />
+            }
+        </div>
+        <table class="profile-table">
+            <tr>
+                <th>Ad Soyad</th>
+                <td>@Model.FullName</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@Model.Email</td>
+            </tr>
+        </table>
+        <a class="btn btn-primary" href="/Account/EditProfile">Profili Düzenle</a>
+    </div>
+</div>
