@@ -86,7 +86,7 @@ namespace OnlineEczaneSistemi.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(Login login, string? returnUrl = null)
+        public async Task<IActionResult> Login(Login login, string role, string? returnUrl = null)
         {
             if (!ModelState.IsValid)
                 return View(login);
@@ -101,9 +101,17 @@ namespace OnlineEczaneSistemi.Controllers
 
             if (!user.IsActive)
             {
-                ModelState.AddModelError("", "Hesabınız pasif durumdadır.");
+                ModelState.AddModelError("", "Bu hesap pasif durumdadır.");
                 return View(login);
             }
+
+            // Rol uyumu kontrolü
+            if (!string.IsNullOrEmpty(role) && user.Role != role)
+            {
+                ModelState.AddModelError("", "Bu hesap seçilen giriş türü ile uyumlu değildir.");
+                return View(login);
+            }
+
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password, login.Password);
             if (result == PasswordVerificationResult.Failed)
             {
@@ -113,13 +121,16 @@ namespace OnlineEczaneSistemi.Controllers
 
             await SignInUser(user, login.RememberMe);
 
-            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
-            if (user.Role == "Admin")
-                return RedirectToAction("Index", "Admin");
-
-            return RedirectToAction("Index", "Home");
+            // Role göre yönlendirme
+            return user.Role switch
+            {
+                "Admin" => RedirectToAction("Dashboard", "Admin"),
+                "Pharmacy" => RedirectToAction("Dashboard", "Pharmacy"),
+                "Courier" => RedirectToAction("Dashboard", "Courier"),
+                _ => RedirectToAction("Index", "Home")
+            };
         }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -213,6 +224,10 @@ namespace OnlineEczaneSistemi.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Profile");
+        }
+        public IActionResult ChooseLogin()
+        {
+            return View();
         }
         public IActionResult Index()
         {

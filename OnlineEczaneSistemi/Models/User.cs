@@ -6,18 +6,29 @@ namespace OnlineEczaneSistemi.Models
     public class User
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]//id otomatik artsın 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Otomatik artan ID
         public int UserId { get; set; }
+
         [Required, MaxLength(100)]
         public string FullName { get; set; }
+
         [Required, MaxLength(150)]
         public string Email { get; set; }
+
         [Required]
         public string Password { get; set; }
-        public string? ImageUrl { get; set; }//resimler wwwroot altında tutulacak ve db'de uzantı olarak kaydedilecek
+
+        // Profil fotoğrafının URL yolu
+        public string? ImageUrl { get; set; }
+
+        // Roller: User, Admin, Pharmacy, Courier
         [Required]
-        public string Role { get; set; } = "User";//varsayılan kullanıcı user
-        public DateTime CreatedAt { get; set; } = DateTime.Now;//admin kullanıcı kayıt tarihini görecek
-        public bool IsActive { get; set; } = true;//admin, kullanıcı aktif/pasif yapabilecek
+        public string Role { get; set; } = "User";
+
+        // Kullanıcı oluşturulma tarihi
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        // Hesap aktif/pasif durumu
+        public bool IsActive { get; set; } = true;
     }
 }

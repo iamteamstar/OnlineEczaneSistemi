@@ -10,15 +10,18 @@ namespace OnlineEczaneSistemi.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
+
         public AdminController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
             _env = env;
-
         }
+
+        // -------------------------------------------------------
+        // 📌 DASHBOARD (Yeni rollerle genişletildi!)
+        // -------------------------------------------------------
         public async Task<IActionResult> Dashboard()
         {
             var model = new AdminDashboard();
@@ -30,6 +33,10 @@ namespace OnlineEczaneSistemi.Controllers
 
             model.AdminRoleCount = await _context.Users.CountAsync(u => u.Role == "Admin");
             model.UserRoleCount = await _context.Users.CountAsync(u => u.Role == "User");
+
+            // Yeni roller
+            model.PharmacyRoleCount = await _context.Users.CountAsync(u => u.Role == "Pharmacy");
+            model.CourierRoleCount = await _context.Users.CountAsync(u => u.Role == "Courier");
 
             model.LastUsers = await _context.Users
                 .OrderByDescending(u => u.CreatedAt)
@@ -51,11 +58,13 @@ namespace OnlineEczaneSistemi.Controllers
             return View(model);
         }
 
+        // -------------------------------------------------------
+        // 📌 KULLANICI LİSTELEME (Pharmacy & Courier eklenmesine hazır)
+        // -------------------------------------------------------
         public async Task<IActionResult> Index(string search, string role, string status)
         {
             var query = _context.Users.AsQueryable();
 
-            // ARAMA (Ad / Email)
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(u =>
@@ -63,13 +72,11 @@ namespace OnlineEczaneSistemi.Controllers
                     u.Email.Contains(search));
             }
 
-            // ROLE GÖRE FİLTRELEME
             if (!string.IsNullOrEmpty(role) && role != "all")
             {
                 query = query.Where(u => u.Role == role);
             }
 
-            // DURUMA GÖRE FİLTRELEME
             if (!string.IsNullOrEmpty(status) && status != "all")
             {
                 if (status == "active")
@@ -85,11 +92,13 @@ namespace OnlineEczaneSistemi.Controllers
             return View(users);
         }
 
+        // -------------------------------------------------------
+        // 📌 KULLANICI DURUMU DEĞİŞTİRME
+        // -------------------------------------------------------
         public async Task<IActionResult> ToggleStatus(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
-            if (user == null)
-                return NotFound();
+            if (user == null) return NotFound();
 
             user.IsActive = !user.IsActive;
             await _context.SaveChangesAsync();
@@ -100,58 +109,53 @@ namespace OnlineEczaneSistemi.Controllers
         public async Task<IActionResult> MakeAdmin(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
-            if (user == null)
-                return NotFound();
+            if (user == null) return NotFound();
 
             user.Role = "Admin";
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> MakeUser(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
-            if (user == null)
-                return NotFound();
+            if (user == null) return NotFound();
 
             user.Role = "User";
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> Details(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
-
-            if (user == null)
-                return NotFound();
+            if (user == null) return NotFound();
 
             return View(user);
         }
+
         public async Task<IActionResult> Edit(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
 
-            if (user == null)
-                return NotFound();
+            if (user == null) return NotFound();
 
             return View(user);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(int id, User model, IFormFile? newImage)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            if (user == null) return NotFound();
 
-            if (user == null)
-                return NotFound();
-
-            // Temel bilgiler
             user.FullName = model.FullName;
             user.Email = model.Email;
             user.Role = model.Role;
             user.IsActive = model.IsActive;
 
-            // Yeni resim yüklendiyse
             if (newImage != null)
             {
                 var uploads = Path.Combine(_env.WebRootPath, "uploads", "profiles");
@@ -162,11 +166,7 @@ namespace OnlineEczaneSistemi.Controllers
                 var filePath = Path.Combine(uploads, fileName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
-                {
                     await newImage.CopyToAsync(stream);
-                }
-
-                // Eski resmi silmek istersen buraya kod koyabiliriz
 
                 user.ImageUrl = "/uploads/profiles/" + fileName;
             }
@@ -176,5 +176,97 @@ namespace OnlineEczaneSistemi.Controllers
             return RedirectToAction("Details", new { id = user.UserId });
         }
 
+        // -------------------------------------------------------
+        // 📌 ECZANE & KURYE KAYIT TALEBİ YÖNETİMİ
+        // -------------------------------------------------------
+
+        // Eczane başvurularını listele
+        public async Task<IActionResult> PharmacyRequests()
+        {
+            var list = await _context.PharmacyRegistrationRequests
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            return View(list);
+        }
+
+        // Kurye başvurularını listele
+        public async Task<IActionResult> CourierRequests()
+        {
+            var list = await _context.CourierRegistrationRequests
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+
+            return View(list);
+        }
+
+        // Eczane başvurusunu onayla
+        public async Task<IActionResult> ApprovePharmacy(int id)
+        {
+            var req = await _context.PharmacyRegistrationRequests.FindAsync(id);
+            if (req == null) return NotFound();
+
+            req.Status = "Approved";
+
+            // Otomatik kullanıcı oluştur
+            var user = new User
+            {
+                FullName = req.PharmacyName,
+                Email = req.Email,
+                Role = "Pharmacy",
+                IsActive = true,
+                Password = "123456" // Admin daha sonra değiştirilmesini sağlayabilir
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("PharmacyRequests");
+        }
+
+        // Kurye başvurusunu onayla
+        public async Task<IActionResult> ApproveCourier(int id)
+        {
+            var req = await _context.CourierRegistrationRequests.FindAsync(id);
+            if (req == null) return NotFound();
+
+            req.Status = "Approved";
+
+            var user = new User
+            {
+                FullName = req.FullName,
+                Email = req.Email,
+                Role = "Courier",
+                IsActive = true,
+                Password = "123456"
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("CourierRequests");
+        }
+
+        public async Task<IActionResult> RejectPharmacy(int id)
+        {
+            var req = await _context.PharmacyRegistrationRequests.FindAsync(id);
+            if (req == null) return NotFound();
+
+            req.Status = "Rejected";
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("PharmacyRequests");
+        }
+
+        public async Task<IActionResult> RejectCourier(int id)
+        {
+            var req = await _context.CourierRegistrationRequests.FindAsync(id);
+            if (req == null) return NotFound();
+
+            req.Status = "Rejected";
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("CourierRequests");
+        }
     }
 }

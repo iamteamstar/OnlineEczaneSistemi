@@ -9,7 +9,8 @@
         public int AdminRoleCount { get; set; }
         public int UserRoleCount { get; set; }
         public List<User> LastUsers { get; set; } = new();
-
+        public int PharmacyRoleCount { get; set; }
+        public int CourierRoleCount { get; set; }
         public List<DailyRegisterStats> Last7DaysStats { get; set; } = new();
     }
 

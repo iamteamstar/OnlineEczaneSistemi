@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Giriş Türü Seçin";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Giriş Yapılacak Türü Seçin</h2>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-3 mb-3">
+            <a href="/Account/Login?role=User" class="btn btn-primary w-100 p-3">
+                Hasta Girişi
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="/Account/Login?role=Pharmacy" class="btn btn-success w-100 p-3">
+                Eczane Girişi
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="/Account/Login?role=Courier" class="btn btn-warning w-100 p-3">
+                Kurye Girişi
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="/Account/Login?role=Admin" class="btn btn-danger w-100 p-3">
+                Admin Girişi
+            </a>
+        </div>
+
+    </div>
+</div>

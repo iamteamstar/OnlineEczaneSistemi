@@ -6,7 +6,6 @@
 
 <h2 class="mb-4">Admin Dashboard</h2>
 
-<!-- Özet Kartlar -->
 <div class="row mb-4">
 
     <div class="col-md-3">
@@ -47,7 +46,39 @@
 
 </div>
 
-<!-- Son 5 Kullanıcı -->
+
+<!-- Yeni Roller İçin Özet Kartlar -->
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card bg-info text-white mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Hasta (User)</h5>
+                <h2>@Model.UserRoleCount</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-success text-white mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Eczane</h5>
+                <h2>@Model.PharmacyRoleCount</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-warning text-white mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Kurye</h5>
+                <h2>@Model.CourierRoleCount</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <h4>Son Kayıt Olan 5 Kullanıcı</h4>
 
 <table class="table table-striped mb-5">
@@ -72,11 +103,11 @@
 
 <hr />
 
-<h3 class="mt-4 mb-3"> İstatistik Grafikler</h3>
+<h3 class="mt-4 mb-3">İstatistik Grafikler</h3>
 
 <div class="row">
 
-    <!-- PIE CHART -->
+    <!-- PIE CHART (ROL DAĞILIMI) -->
     <div class="col-md-4 mb-4">
         <h5 class="text-center">Rol Dağılımı</h5>
         <canvas id="roleChart"></canvas>
@@ -101,20 +132,24 @@
 
     <script>
 
-
+        // ----------- ROL DAĞILIMI -----------
         new Chart(document.getElementById('roleChart'), {
             type: 'pie',
             data: {
-                labels: ['Admin', 'User'],
+                labels: ['Admin', 'User (Hasta)', 'Eczane', 'Kurye'],
                 datasets: [{
-                    data: [@Model.AdminRoleCount, @Model.UserRoleCount],
-                    backgroundColor: ['#ff6384', '#36a2eb']
+                    data: [
+                        @Model.AdminRoleCount,
+                        @Model.UserRoleCount,
+                        @Model.PharmacyRoleCount,
+                        @Model.CourierRoleCount
+                    ],
+                    backgroundColor: ['#111', '#36a2eb', '#28a745', '#ffc107']
                 }]
             }
         });
 
-
-
+        // ----------- AKTIF / PASIF ----------
         new Chart(document.getElementById('statusChart'), {
             type: 'bar',
             data: {
@@ -124,17 +159,10 @@
                     data: [@Model.ActiveUsers, @Model.PassiveUsers],
                     backgroundColor: ['#28a745', '#dc3545']
                 }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: { beginAtZero: true }
-                }
             }
         });
 
-
-        // ---------------- LINE CHART (SON 7 GÜN) ----------------
+        // ----------- SON 7 GÜN -----------
         var labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Last7DaysStats.Select(x => x.Date)));
         var data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Last7DaysStats.Select(x => x.Count)));
 

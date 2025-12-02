@@ -17,54 +17,30 @@
         <div class="col-md-3">
             <select name="role" class="form-control">
 
-                @if (Context.Request.Query["role"] == "Admin")
-                {
-                    <option value="all">Tüm Roller</option>
-                    <option value="Admin" selected>Admin</option>
-                    <option value="User">User</option>
+                @{
+                    var selectedRole = Context.Request.Query["role"].ToString();
                 }
-                else if (Context.Request.Query["role"] == "User")
-                {
-                    <option value="all">Tüm Roller</option>
-                    <option value="Admin">Admin</option>
-                    <option value="User" selected>User</option>
-                }
-                else
-                {
-                    <option value="all" selected>Tüm Roller</option>
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                }
+
+                    <option value="all" selected="@(selectedRole == "all" || string.IsNullOrEmpty(selectedRole))">Tüm Roller</option>
+                    <option value="Admin" selected="@(selectedRole == "Admin")">Admin</option>
+                <option value="User" selected="@(selectedRole == "User")">User (Hasta)</option>
+                <option value="Pharmacy" selected="@(selectedRole == "Pharmacy")">Eczane</option>
+                <option value="Courier" selected="@(selectedRole == "Courier")">Kurye</option>
 
             </select>
-
         </div>
 
         <!-- Durum Filtre -->
         <div class="col-md-3">
+            @{
+                var selectedStatus = Context.Request.Query["status"].ToString();
+            }
+
             <select name="status" class="form-control">
-
-                @if (Context.Request.Query["status"] == "active")
-                {
-                    <option value="all">Tümü</option>
-                    <option value="active" selected>Aktif</option>
-                    <option value="passive">Pasif</option>
-                }
-                else if (Context.Request.Query["status"] == "passive")
-                {
-                    <option value="all">Tümü</option>
-                    <option value="active">Aktif</option>
-                    <option value="passive" selected>Pasif</option>
-                }
-                else
-                {
-                    <option value="all" selected>Tümü</option>
-                    <option value="active">Aktif</option>
-                    <option value="passive">Pasif</option>
-                }
-
+                <option value="all" selected="@(selectedStatus == "all" || string.IsNullOrEmpty(selectedStatus))">Tümü</option>
+                <option value="active" selected="@(selectedStatus == "active")">Aktif</option>
+                <option value="passive" selected="@(selectedStatus == "passive")">Pasif</option>
             </select>
-
         </div>
 
         <div class="col-md-2">
@@ -91,7 +67,6 @@
         @foreach (var user in Model)
         {
             <tr>
-                <!-- Profil resmi -->
                 <td>
                     @if (!string.IsNullOrEmpty(user.ImageUrl))
                     {
@@ -99,15 +74,30 @@
                              width="40" height="40"
                              style="border-radius:50%; object-fit:cover;" />
                     }
-                    else
-                    {
-                        <span>-</span>
-                    }
+                    else { <span>-</span> }
                 </td>
 
                 <td>@user.FullName</td>
                 <td>@user.Email</td>
-                <td>@user.Role</td>
+
+                <td>
+                    @if (user.Role == "User")
+                    {
+                        <span class="badge bg-info">Hasta</span>
+                    }
+                    else if (user.Role == "Pharmacy")
+                    {
+                        <span class="badge bg-success">Eczane</span>
+                    }
+                    else if (user.Role == "Courier")
+                    {
+                        <span class="badge bg-warning">Kurye</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-dark">Admin</span>
+                    }
+                </td>
 
                 <td>
                     @if (user.IsActive)
@@ -121,9 +111,7 @@
                 </td>
 
                 <td>
-                    <a class="btn btn-warning btn-sm" href="/Admin/ToggleStatus/@user.UserId">
-                        Durumu Değiştir
-                    </a>
+                    <a class="btn btn-warning btn-sm" href="/Admin/ToggleStatus/@user.UserId">Durumu Değiştir</a>
 
                     @if (user.Role == "Admin")
                     {
@@ -133,8 +121,8 @@
                     {
                         <a class="btn btn-info btn-sm" href="/Admin/MakeAdmin/@user.UserId">Admin Yap</a>
                     }
-                    <a class="btn btn-primary btn-sm" href="/Admin/Details/@user.UserId">Detay</a>
 
+                    <a class="btn btn-primary btn-sm" href="/Admin/Details/@user.UserId">Detay</a>
                 </td>
             </tr>
         }

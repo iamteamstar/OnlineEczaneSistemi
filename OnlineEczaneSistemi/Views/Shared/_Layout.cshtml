@@ -10,26 +10,79 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OnlineEczaneSistemi</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">OnlineEczaneSistemi</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary fw-bold" href="/Admin/Dashboard">Admin Panel</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary fw-bold" href="/Admin/Index">Kullanıcılar</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary fw-bold" href="/Admin/PharmacyRequests">Eczane Başvuruları</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary fw-bold" href="/Admin/CourierRequests">Kurye Başvuruları</a>
+                                </li>
+                            }
+
+                            if (User.IsInRole("Pharmacy"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link fw-bold text-success" href="/Pharmacy/Dashboard">Eczane Paneli</a>
+                                </li>
+                            }
+
+                            if (User.IsInRole("Courier"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link fw-bold text-warning" href="/Courier/Dashboard">Kurye Paneli</a>
+                                </li>
+                            }
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Profile">Profilim</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <form method="post" action="/Account/Logout">
+                                    <button class="btn btn-danger btn-sm ms-2">Çıkış Yap</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- Yeni giriş sistemi -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/ChooseLogin">Giriş Yap</a>
+                            </li>
+
+                            <!-- Hasta kayıt kısmı -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Register">Kayıt Ol</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
+
     </header>
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -38,9 +91,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - OnlineEczaneSistemi - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - OnlineEczaneSistemi
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,6 +1,7 @@
 wwwroot\css\AccountDesign\EditProfile.css
 wwwroot\css\AccountDesign\Login.css
 wwwroot\css\AccountDesign\Profile.css
+wwwroot\css\AccountDesign\Register.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
@@ -61,3 +62,8 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\uploads\profiles\1bc99a92-d827-488a-87a0-905c851a8c80.jpg
+wwwroot\uploads\profiles\4b25eb2c-a596-4a49-9152-fb810920a0bf.jpg
+wwwroot\uploads\profiles\b0369469-a1e2-4cab-867c-0f35b18a7192.jpg
+wwwroot\uploads\profiles\c9ce8f78-bb57-432e-8a0a-1121a030160e.jpg
+wwwroot\uploads\profiles\df35ec4b-35da-4ed7-91d3-73cfcae91c1c.jpg
