@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineEczaneSistemi.Data;
@@ -12,7 +13,7 @@ namespace OnlineEczaneSistemi.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
-
+        private readonly PasswordHasher<User> _passwordHasher = new();
         public AdminController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
@@ -206,23 +207,36 @@ namespace OnlineEczaneSistemi.Controllers
             var req = await _context.PharmacyRegistrationRequests.FindAsync(id);
             if (req == null) return NotFound();
 
+            if (req.Status != "Pending")
+                return RedirectToAction("PharmacyRequests");
+
             req.Status = "Approved";
 
-            // Otomatik kullanıcı oluştur
-            var user = new User
+            // Eğer aynı email kullanıcıda varsa yeni user oluşturma
+            bool emailExists = await _context.Users.AnyAsync(u => u.Email == req.Email);
+            if (!emailExists)
             {
-                FullName = req.PharmacyName,
-                Email = req.Email,
-                Role = "Pharmacy",
-                IsActive = true,
-                Password = "123456" // Admin daha sonra değiştirilmesini sağlayabilir
-            };
+                var password = GeneratePassword();
 
-            _context.Users.Add(user);
+                var user = new User
+                {
+                    FullName = req.PharmacyName,
+                    Email = req.Email,
+                    Role = "Pharmacy",
+                    IsActive = true
+                };
+
+                // Parola hashleniyor!
+                user.Password = _passwordHasher.HashPassword(user, password);
+
+                _context.Users.Add(user);
+            }
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("PharmacyRequests");
         }
+
 
         // Kurye başvurusunu onayla
         public async Task<IActionResult> ApproveCourier(int id)
@@ -230,22 +244,34 @@ namespace OnlineEczaneSistemi.Controllers
             var req = await _context.CourierRegistrationRequests.FindAsync(id);
             if (req == null) return NotFound();
 
+            if (req.Status != "Pending")
+                return RedirectToAction("CourierRequests");
+
             req.Status = "Approved";
 
-            var user = new User
+            bool emailExists = await _context.Users.AnyAsync(u => u.Email == req.Email);
+            if (!emailExists)
             {
-                FullName = req.FullName,
-                Email = req.Email,
-                Role = "Courier",
-                IsActive = true,
-                Password = "123456"
-            };
+                var password = GeneratePassword();
 
-            _context.Users.Add(user);
+                var user = new User
+                {
+                    FullName = req.FullName,
+                    Email = req.Email,
+                    Role = "Courier",
+                    IsActive = true
+                };
+
+                user.Password = _passwordHasher.HashPassword(user, password);
+
+                _context.Users.Add(user);   
+            }
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("CourierRequests");
         }
+
 
         public async Task<IActionResult> RejectPharmacy(int id)
         {
@@ -268,5 +294,13 @@ namespace OnlineEczaneSistemi.Controllers
 
             return RedirectToAction("CourierRequests");
         }
+        private string GeneratePassword()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, 8)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
     }
 }

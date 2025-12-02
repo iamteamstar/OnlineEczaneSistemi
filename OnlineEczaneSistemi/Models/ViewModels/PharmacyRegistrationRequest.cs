@@ -10,7 +10,8 @@ namespace OnlineEczaneSistemi.Models
         [Required, MaxLength(200)]
         public string PharmacyName { get; set; }
 
-        [Required, MaxLength(150), EmailAddress]
+        [Required, MaxLength(150)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required, MaxLength(300)]
@@ -20,9 +21,9 @@ namespace OnlineEczaneSistemi.Models
         public string Phone { get; set; }
 
         [Required, MaxLength(20)]
-        public string TaxNumber { get; set; }
+        public string TaxNumber { get; set; } // Vergi No
 
-        // Pending / Approved / Rejected
+        // Pending | Approved | Rejected
         [Required]
         public string Status { get; set; } = "Pending";
 

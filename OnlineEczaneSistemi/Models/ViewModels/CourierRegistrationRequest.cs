@@ -10,7 +10,8 @@ namespace OnlineEczaneSistemi.Models
         [Required, MaxLength(100)]
         public string FullName { get; set; }
 
-        [Required, MaxLength(150), EmailAddress]
+        [Required, MaxLength(150)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required, MaxLength(20)]
@@ -19,7 +20,7 @@ namespace OnlineEczaneSistemi.Models
         [Required, MaxLength(50)]
         public string VehicleType { get; set; } // Motor, Araba, Bisiklet
 
-        // Pending / Approved / Rejected
+        // Pending | Approved | Rejected
         [Required]
         public string Status { get; set; } = "Pending";
 
