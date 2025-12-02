@@ -1,0 +1,157 @@
+﻿@model OnlineEczaneSistemi.Models.ViewModels.AdminDashboard
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<!-- Özet Kartlar -->
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Toplam Kullanıcı</h5>
+                <h2>@Model.TotalUsers</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Aktif Kullanıcı</h5>
+                <h2>@Model.ActiveUsers</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Pasif Kullanıcı</h5>
+                <h2>@Model.PassiveUsers</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Admin Sayısı</h5>
+                <h2>@Model.AdminCount</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Son 5 Kullanıcı -->
+<h4>Son Kayıt Olan 5 Kullanıcı</h4>
+
+<table class="table table-striped mb-5">
+    <thead>
+        <tr>
+            <th>Ad Soyad</th>
+            <th>Email</th>
+            <th>Kayıt Tarihi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model.LastUsers)
+        {
+            <tr>
+                <td>@u.FullName</td>
+                <td>@u.Email</td>
+                <td>@u.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h3 class="mt-4 mb-3"> İstatistik Grafikler</h3>
+
+<div class="row">
+
+    <!-- PIE CHART -->
+    <div class="col-md-4 mb-4">
+        <h5 class="text-center">Rol Dağılımı</h5>
+        <canvas id="roleChart"></canvas>
+    </div>
+
+    <!-- BAR CHART -->
+    <div class="col-md-4 mb-4">
+        <h5 class="text-center">Aktif / Pasif Kullanıcılar</h5>
+        <canvas id="statusChart"></canvas>
+    </div>
+
+    <!-- LINE CHART -->
+    <div class="col-md-4 mb-4">
+        <h5 class="text-center">Son 7 Gün Kayıt Grafiği</h5>
+        <canvas id="registerChart"></canvas>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+
+        new Chart(document.getElementById('roleChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Admin', 'User'],
+                datasets: [{
+                    data: [@Model.AdminRoleCount, @Model.UserRoleCount],
+                    backgroundColor: ['#ff6384', '#36a2eb']
+                }]
+            }
+        });
+
+
+
+        new Chart(document.getElementById('statusChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Aktif', 'Pasif'],
+                datasets: [{
+                    label: 'Kullanıcı Sayısı',
+                    data: [@Model.ActiveUsers, @Model.PassiveUsers],
+                    backgroundColor: ['#28a745', '#dc3545']
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+
+        // ---------------- LINE CHART (SON 7 GÜN) ----------------
+        var labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Last7DaysStats.Select(x => x.Date)));
+        var data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Last7DaysStats.Select(x => x.Count)));
+
+        new Chart(document.getElementById('registerChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Kayıt Sayısı',
+                    data: data,
+                    borderColor: '#3a86ff',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.3
+                }]
+            }
+        });
+
+    </script>
+}
