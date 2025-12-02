@@ -1,3 +1,6 @@
+wwwroot\css\AccountDesign\EditProfile.css
+wwwroot\css\AccountDesign\Login.css
+wwwroot\css\AccountDesign\Profile.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
