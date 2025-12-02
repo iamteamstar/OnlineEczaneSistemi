@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OnlineEczaneSistemi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+508e53f662656623e7f7d7c3c6f7bb62dfc9dd7b")]
 [assembly: System.Reflection.AssemblyProductAttribute("OnlineEczaneSistemi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OnlineEczaneSistemi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

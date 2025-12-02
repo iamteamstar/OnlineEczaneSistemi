@@ -1,0 +1,10 @@
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.csproj.AssemblyReference.cache
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.AssemblyInfoInputs.cache
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.AssemblyInfo.cs
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.csproj.CoreCompileInputs.cache
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.RazorAssemblyInfo.cache
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.RazorAssemblyInfo.cs
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.sourcelink.json
