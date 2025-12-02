@@ -1,0 +1,142 @@
+﻿@model List<OnlineEczaneSistemi.Models.User>
+
+<h2 class="mb-4">Admin Panel – Kullanıcı Yönetimi</h2>
+
+<form method="get" class="mb-4">
+    <div class="row">
+
+        <!-- Arama -->
+        <div class="col-md-4">
+            <input type="text" name="search"
+                   value="@Context.Request.Query["search"]"
+                   class="form-control"
+                   placeholder="İsim veya e-posta ile ara..." />
+        </div>
+
+        <!-- Rol Filtre -->
+        <div class="col-md-3">
+            <select name="role" class="form-control">
+
+                @if (Context.Request.Query["role"] == "Admin")
+                {
+                    <option value="all">Tüm Roller</option>
+                    <option value="Admin" selected>Admin</option>
+                    <option value="User">User</option>
+                }
+                else if (Context.Request.Query["role"] == "User")
+                {
+                    <option value="all">Tüm Roller</option>
+                    <option value="Admin">Admin</option>
+                    <option value="User" selected>User</option>
+                }
+                else
+                {
+                    <option value="all" selected>Tüm Roller</option>
+                    <option value="Admin">Admin</option>
+                    <option value="User">User</option>
+                }
+
+            </select>
+
+        </div>
+
+        <!-- Durum Filtre -->
+        <div class="col-md-3">
+            <select name="status" class="form-control">
+
+                @if (Context.Request.Query["status"] == "active")
+                {
+                    <option value="all">Tümü</option>
+                    <option value="active" selected>Aktif</option>
+                    <option value="passive">Pasif</option>
+                }
+                else if (Context.Request.Query["status"] == "passive")
+                {
+                    <option value="all">Tümü</option>
+                    <option value="active">Aktif</option>
+                    <option value="passive" selected>Pasif</option>
+                }
+                else
+                {
+                    <option value="all" selected>Tümü</option>
+                    <option value="active">Aktif</option>
+                    <option value="passive">Pasif</option>
+                }
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100">Filtrele</button>
+        </div>
+
+    </div>
+</form>
+
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Profil</th>
+            <th>Ad Soyad</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Durum</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <!-- Profil resmi -->
+                <td>
+                    @if (!string.IsNullOrEmpty(user.ImageUrl))
+                    {
+                        <img src="@user.ImageUrl"
+                             width="40" height="40"
+                             style="border-radius:50%; object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+
+                <td>
+                    @if (user.IsActive)
+                    {
+                        <span class="text-success">Aktif</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Pasif</span>
+                    }
+                </td>
+
+                <td>
+                    <a class="btn btn-warning btn-sm" href="/Admin/ToggleStatus/@user.UserId">
+                        Durumu Değiştir
+                    </a>
+
+                    @if (user.Role == "Admin")
+                    {
+                        <a class="btn btn-danger btn-sm" href="/Admin/MakeUser/@user.UserId">User Yap</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-info btn-sm" href="/Admin/MakeAdmin/@user.UserId">Admin Yap</a>
+                    }
+                    <a class="btn btn-primary btn-sm" href="/Admin/Details/@user.UserId">Detay</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
