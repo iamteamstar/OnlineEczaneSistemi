@@ -1,0 +1,80 @@
+﻿@model OnlineEczaneSistemi.Models.User
+
+<h2>Kullanıcı Düzenle</h2>
+
+<div class="card" style="max-width: 650px;">
+    <div class="card-body">
+
+        <form method="post" enctype="multipart/form-data">
+
+            <div class="text-center mb-3">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl"
+                         width="120" height="120"
+                         style="border-radius:50%; object-fit:cover;" />
+                }
+                else
+                {
+                    <img src="/images/default-user.png"
+                         width="120" height="120"
+                         style="border-radius:50%; opacity:0.5;" />
+                }
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Ad Soyad</label>
+                <input type="text" class="form-control" name="FullName" value="@Model.FullName" required />
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Email</label>
+                <input type="email" class="form-control" name="Email" value="@Model.Email" required />
+            </div>
+
+            <div class="form-group mb-3">
+                <label>Rol</label>
+                <select name="Role" class="form-control">
+                    @if (Model.Role == "User")
+                    {
+                        <option value="User" selected>User</option>
+                        <option value="Admin">Admin</option>
+                    }
+                    else
+                    {
+                        <option value="User">User</option>
+                        <option value="Admin" selected>Admin</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="form-group mb-3">
+                <label>Durum</label>
+                <select name="IsActive" class="form-control">
+                    @if (Model.IsActive)
+                    {
+                        <option value="true" selected>Aktif</option>
+                        <option value="false">Pasif</option>
+                    }
+                    else
+                    {
+                        <option value="true">Aktif</option>
+                        <option value="false" selected>Pasif</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="form-group mb-3">
+                <label>Profil Resmi Değiştir</label>
+                <input type="file" class="form-control" name="newImage" />
+            </div>
+
+            <button class="btn btn-success">Kaydet</button>
+            <a class="btn btn-secondary" href="/Admin/Details/@Model.UserId">İptal</a>
+
+        </form>
+
+    </div>
+</div>
