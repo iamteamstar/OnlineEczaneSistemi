@@ -13,5 +13,10 @@ namespace OnlineEczaneSistemi.Data
         public DbSet<User> Users { get; set; }
         public DbSet<PharmacyRegistrationRequest> PharmacyRegistrationRequests { get; set; }
         public DbSet<CourierRegistrationRequest> CourierRegistrationRequests { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
+        public DbSet<PaymentInfo> PaymentInfos { get; set; }
+
     }
 }
