@@ -1,0 +1,43 @@
+﻿@model OnlineEczaneSistemi.Models.User
+
+<head>
+    <link rel="stylesheet" href="~/css/AccountDesign/EditProfile.css" />
+</head>
+
+<div class="edit-profile-container">
+    <form method="post" enctype="multipart/form-data" style="width: 100%;">
+        <div class="edit-profile-card">
+            <h2>Profilimi Düzenle</h2>
+            <div class="profile-image-section">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="Profil Resmi" />
+                }
+                else
+                {
+                    <img src="/images/default-user.png" alt="Varsayılan Profil Resmi" />
+                }
+            </div>
+            <div class="form-group mb-3">
+                <label>Yeni Profil Resmi</label>
+                <input type="file" name="newImage" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label>Ad Soyad</label>
+                <input type="text" name="FullName" class="form-control" value="@Model.FullName" required />
+            </div>
+            <div class="form-group mb-3">
+                <label>Email</label>
+                <input type="email" name="Email" class="form-control" value="@Model.Email" required />
+            </div>
+            <div class="form-group mb-3">
+                <label>Yeni Şifre (Opsiyonel)</label>
+                <input type="password" name="newPassword" class="form-control" placeholder="Yeni şifre gir" />
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn btn-success">Kaydet</button>
+                <a href="/Account/Profile" class="btn btn-secondary">İptal</a>
+            </div>
+        </div>
+    </form>
+</div>
