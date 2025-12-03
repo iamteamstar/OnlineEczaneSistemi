@@ -1,0 +1,21 @@
+﻿@model OnlineEczaneSistemi.Models.Order
+
+<div class="container mt-4">
+    <h3>Sipariş #@Model.OrderId Fiyatlandır</h3>
+
+    <form method="post" action="/Pharmacy/PriceOrder">
+        <input type="hidden" name="OrderId" value="@Model.OrderId" />
+
+        <div class="mb-3">
+            <label>İlaç Listesi + Fiyatlandırma</label>
+            <textarea name="Notes" class="form-control" rows="4"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Toplam Fiyat (₺)</label>
+            <input type="number" step="0.01" name="TotalPrice" class="form-control" />
+        </div>
+
+        <button class="btn btn-success w-100">Kaydet</button>
+    </form>
+</div>

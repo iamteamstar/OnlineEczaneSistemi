@@ -1,0 +1,61 @@
+﻿@model List<OnlineEczaneSistemi.Models.Medicine>
+
+<h2>Stok Yönetimi</h2>
+<hr />
+
+<h4>Yeni İlaç Ekle</h4>
+
+<form method="post" action="/Pharmacy/AddMedicine" class="row g-2 mb-4">
+    <div class="col-md-4">
+        <input name="Name" class="form-control" placeholder="İlaç Adı" required />
+    </div>
+    <div class="col-md-3">
+        <input name="Stock" type="number" class="form-control" placeholder="Stok" required />
+    </div>
+    <div class="col-md-3">
+        <input name="Price" type="number" step="0.1" class="form-control" placeholder="Fiyat (₺)" required />
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-success w-100">Ekle</button>
+    </div>
+</form>
+
+<hr />
+
+<h4>İlaç Listesi</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>İlaç</th>
+            <th>Stok</th>
+            <th>Fiyat</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.Name</td>
+                <td>
+                    <form method="post" action="/Pharmacy/UpdateStock" class="d-flex gap-2">
+                        <input type="hidden" name="MedicineId" value="@m.MedicineId" />
+                        <input name="Stock" type="number" value="@m.Stock" class="form-control" style="width: 80px;" />
+                        <button class="btn btn-warning btn-sm">Güncelle</button>
+                    </form>
+                </td>
+                <td>@m.Price ₺</td>
+
+                <td>
+                    <a href="/Pharmacy/DeleteMedicine/@m.MedicineId" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                        Sil
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Pharmacy/Dashboard" class="btn btn-secondary">Geri Dön</a>

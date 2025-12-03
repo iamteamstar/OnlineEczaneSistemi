@@ -1,0 +1,45 @@
+﻿@model List<OnlineEczaneSistemi.Models.Order>
+
+<h2>Teslim Edilen Siparişler</h2>
+<hr />
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Henüz teslim ettiğiniz bir sipariş bulunmuyor.
+    </div>
+}
+else
+{
+    <table class="table table-striped shadow-sm">
+        <thead class="table-success">
+            <tr>
+                <th>#</th>
+                <th>Hasta</th>
+                <th>Adres</th>
+                <th>Toplam Fiyat</th>
+                <th>Tarih</th>
+            </tr>
+        </thead>
+
+        <div class="row">
+            @foreach (var order in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-header bg-success text-white">
+                            Sipariş #@order.OrderId
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Hasta:</strong> @order.User.FullName</p>
+                            <p><strong>Adres:</strong> @order.DeliveryAddress</p>
+                            <p><strong>Fiyat:</strong> @order.TotalPrice ₺</p>
+                            <p><strong>Teslim:</strong> @order.CreatedAt.ToString("dd.MM.yyyy")</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </table>
+}

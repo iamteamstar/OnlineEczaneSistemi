@@ -36,7 +36,10 @@ namespace OnlineEczaneSistemi.Models
 
         // Teslimat adresi
         [Required, MaxLength(300)]
-        public string DeliveryAddress { get; set; }
+        public string DeliveryAddress { get; set; }// teslimat adresi
+
+        public string PrescriptionUrl { get; set; }  // yüklenen dosyanın yolu
+        public string Notes { get; set; }            // hastanın yazdığı açıklama
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 

@@ -17,6 +17,8 @@ namespace OnlineEczaneSistemi.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
         public DbSet<PaymentInfo> PaymentInfos { get; set; }
+        public DbSet<Medicine> Medicines { get; set; }
+
 
     }
 }

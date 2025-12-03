@@ -5,7 +5,7 @@
 namespace OnlineEczaneSistemi.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateModel : Migration
+    public partial class UploadRecete : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

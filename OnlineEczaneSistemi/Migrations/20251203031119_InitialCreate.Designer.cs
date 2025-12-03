@@ -12,8 +12,8 @@ using OnlineEczaneSistemi.Data;
 namespace OnlineEczaneSistemi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251203013705_UpdateCourier")]
-    partial class UpdateCourier
+    [Migration("20251203031119_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,33 @@ namespace OnlineEczaneSistemi.Migrations
                     b.ToTable("CourierRegistrationRequests");
                 });
 
+            modelBuilder.Entity("OnlineEczaneSistemi.Models.Medicine", b =>
+                {
+                    b.Property<int>("MedicineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicineId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("PharmacyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
+
+                    b.HasKey("MedicineId");
+
+                    b.ToTable("Medicines");
+                });
+
             modelBuilder.Entity("OnlineEczaneSistemi.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -88,8 +115,16 @@ namespace OnlineEczaneSistemi.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("PharmacyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PrescriptionUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()

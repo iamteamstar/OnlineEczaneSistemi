@@ -1,0 +1,99 @@
+﻿@model OnlineEczaneSistemi.Models.Order
+
+<h2>Sipariş Detayı #@Model.OrderId</h2>
+
+<hr />
+
+<h4>Hasta Bilgisi</h4>
+<p><strong>Ad:</strong> @Model.User.FullName</p>
+<p><strong>Adres:</strong> @Model.DeliveryAddress</p>
+
+<hr />
+
+<h4>İlaçlar</h4>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>İlaç</th>
+            <th>Adet</th>
+            <th>Birim Fiyat</th>
+            <th>Toplam</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Items != null && Model.Items.Any())
+        {
+            foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.MedicineName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice ₺</td>
+                    <td>@item.Total ₺</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center text-muted">Henüz ilaç eklenmemiş.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="mt-4">Yeni İlaç Ekle</h4>
+
+<form method="post" action="/Pharmacy/AddItem">
+    <input type="hidden" name="OrderId" value="@Model.OrderId" />
+
+    <div class="row mb-3">
+
+        <!-- 🔽 Stoktan İlaç Seçme Dropdown -->
+        <div class="col-md-4">
+            <select name="MedicineId" class="form-control" required>
+                <option value="">-- İlaç Seç --</option>
+
+                @foreach (var med in (List<OnlineEczaneSistemi.Models.Medicine>)ViewBag.Medicines)
+                {
+                    <option value="@med.MedicineId">
+                        @med.Name (Stok: @med.Stock) – @med.Price ₺
+                    </option>
+                }
+            </select>
+        </div>
+
+        <!-- Adet -->
+        <div class="col-md-3">
+            <input name="Quantity" type="number" min="1" class="form-control" placeholder="Adet" required />
+        </div>
+
+        <!-- Ekle Butonu -->
+        <div class="col-md-2">
+            <button class="btn btn-success w-100">Ekle</button>
+        </div>
+    </div>
+</form>
+
+<hr />
+
+<h4>Durum: @Model.Status</h4>
+
+@if (Model.Status == "PendingPharmacy")
+{
+    <a href="/Pharmacy/StartPreparing/@Model.OrderId" class="btn btn-warning">
+        Hazırlamaya Başla
+    </a>
+}
+else if (Model.Status == "Preparing")
+{
+    <a href="/Pharmacy/CompletePreparing/@Model.OrderId" class="btn btn-primary">
+        Hazırlandı → Kurye Bekliyor
+    </a>
+}
+
+<br />
+<br />
+
+<a href="/Pharmacy/Dashboard" class="btn btn-secondary">Geri Dön</a>

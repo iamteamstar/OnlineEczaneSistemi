@@ -1,0 +1,58 @@
+﻿@model List<OnlineEczaneSistemi.Models.Order>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Gelen Siparişler</h2>
+
+    @foreach (var order in Model)
+    {
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+
+                <h5>Sipariş #@order.OrderId</h5>
+                <p><strong>Hasta:</strong> @order.User.FullName</p>
+                <p><strong>Adres:</strong> @order.DeliveryAddress</p>
+
+                @if (!string.IsNullOrEmpty(order.PrescriptionUrl))
+                {
+                    <p>
+                        <a href="@order.PrescriptionUrl" target="_blank" class="btn btn-outline-primary btn-sm">
+                            📄 Reçeteyi Gör
+                        </a>
+                    </p>
+                }
+
+                <p>
+                    <strong>Durum:</strong>
+                    @if (order.Status == "PendingPharmacy")
+                    {
+                        <span class="badge bg-warning text-dark">Onay Bekliyor</span>
+                    }
+                    else if (order.Status == "Preparing")
+                    {
+
+                        <span class="badge bg-primary">Hazırlanıyor</span>
+                    }
+                    else if (order.Status == "WaitingCourier")
+                    {
+
+                        <span class="badge bg-success">Kurye Bekliyor</span>
+                    }
+                </p>
+
+                @if (order.Status == "PendingPharmacy")
+                {
+                    <a href="/Pharmacy/PriceOrder/@order.OrderId" class="btn btn-success">
+                        💰 Fiyatlandır
+                    </a>
+                }
+
+                @if (order.Status == "Preparing")
+                {
+                    <a href="/Pharmacy/CallCourier/@order.OrderId" class="btn btn-dark">
+                        🚚 Kurye Çağır
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>

@@ -12,8 +12,8 @@ using OnlineEczaneSistemi.Data;
 namespace OnlineEczaneSistemi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251202232223_UpdateDashboards")]
-    partial class UpdateDashboards
+    [Migration("20251203020759_UploadRecete2")]
+    partial class UploadRecete2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,10 @@ namespace OnlineEczaneSistemi.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -84,8 +88,16 @@ namespace OnlineEczaneSistemi.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("PharmacyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PrescriptionUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -211,6 +223,10 @@ namespace OnlineEczaneSistemi.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PharmacyName")
                         .IsRequired()

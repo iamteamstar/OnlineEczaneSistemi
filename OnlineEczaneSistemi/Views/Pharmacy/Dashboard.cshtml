@@ -15,7 +15,7 @@
 
             <ul class="nav flex-column">
                 <li class="nav-item"><a href="/Pharmacy/Dashboard" class="nav-link active">📦 Gelen Siparişler</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">💊 Stok Yönetimi (Yakında)</a></li>
+                <li class="nav-item"><a href="/Pharmacy/Stock" class="nav-link">💊 Stok Yönetimi </a></li>
                 <li class="nav-item"><a href="/Account/Profile" class="nav-link">👤 Profilim</a></li>
             </ul>
         </div>
@@ -48,23 +48,38 @@
                                     <p><strong>Adres:</strong> @order.DeliveryAddress</p>
                                     <p>
                                         <strong>Durum:</strong>
-                                        @if (order.Status == "Pending")
+                                        @if (order.Status == "PendingPharmacy")
                                         {
-                                            <span class="badge bg-warning text-dark">Beklemede</span>
+                                            <span class="badge bg-warning text-dark">Yeni Sipariş</span>
                                         }
                                         else if (order.Status == "Preparing")
                                         {
                                             <span class="badge bg-info">Hazırlanıyor</span>
                                         }
+                                        else if (order.Status == "WaitingCourier")
+                                        {
+                                            <span class="badge bg-primary">Kurye Bekleniyor</span>
+                                        }
+                                        else if (order.Status == "OnTheWay")
+                                        {
+                                            <span class="badge bg-info">Yolda</span>
+                                        }
+                                        else if (order.Status == "Delivered")
+                                        {
+                                            <span class="badge bg-success">Teslim Edildi</span>
+                                        }
                                         else
                                         {
-                                            <span class="badge bg-success">Tamamlandı</span>
+                                            <span class="badge bg-secondary">Durum Yok</span>
                                         }
+
                                     </p>
 
-                                    <button class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#orderModal@order.OrderId">
+                                    <a href="/Pharmacy/OrderDetail/@order.OrderId" class="btn btn-outline-success w-100">
                                         Detay
-                                    </button>
+                                    </a>
+
+
 
                                 </div>
                             </div>

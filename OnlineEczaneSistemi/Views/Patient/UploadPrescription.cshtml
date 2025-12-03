@@ -1,0 +1,40 @@
+﻿@model OnlineEczaneSistemi.Models.ViewModels.PrescriptionUploadVM
+
+<div class="container mt-5 col-md-6">
+    <div class="card p-4 shadow-sm">
+
+        <h3 class="text-center mb-4">Reçete Gönder</h3>
+
+        <form asp-action="UploadPrescription" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label>Reçete (PDF / Fotoğraf)</label>
+                <input type="file" asp-for="PrescriptionFile" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Açıklama (İsteğe bağlı)</label>
+                <textarea asp-for="Notes" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Adres</label>
+                <input asp-for="DeliveryAddress" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="PharmacyId">Eczane Seç</label>
+                <select asp-for="PharmacyId" class="form-control"
+                        asp-items="@(new SelectList(Model.Pharmacies, "UserId", "FullName"))">
+                    <option value="">-- Eczane Seçin --</option>
+                </select>
+                <span asp-validation-for="PharmacyId" class="text-danger"></span>
+            </div>
+
+
+            <button class="btn btn-success w-100">Gönder</button>
+
+        </form>
+    </div>
+</div>

@@ -38,7 +38,12 @@
                                     <a class="nav-link text-primary fw-bold" href="/Admin/CourierRequests">Kurye Başvuruları</a>
                                 </li>
                             }
-
+                            if (User.IsInRole("User"))     // HASTA
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Patient/UploadPrescription">📄 Reçete Yükle</a>
+                                </li>
+                            }
                             if (User.IsInRole("Pharmacy"))
                             {
                                 <li class="nav-item">
@@ -51,6 +56,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link fw-bold text-warning" href="/Courier/Dashboard">Kurye Paneli</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Courier/DeliveredOrders">📦 Teslim Edilen Siparişler</a>
+                                </li>
+
                             }
 
                             <li class="nav-item">
