@@ -1,0 +1,44 @@
+﻿@model OnlineEczaneSistemi.Models.CourierRegistrationRequest
+
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm col-md-6 mx-auto">
+
+        <h3 class="text-center mb-4">Kurye Başvuru Formu</h3>
+
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label>Ad Soyad</label>
+                <input asp-for="FullName" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Telefon</label>
+                <input asp-for="Phone" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Taşıt Türü (Motor, Araba, Bisiklet)</label>
+                <input asp-for="VehicleType" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Parola</label>
+                <input asp-for="Password" type="password" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Parola Tekrar</label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" />
+            </div>
+
+            <button class="btn btn-primary w-100">Başvuruyu Gönder</button>
+        </form>
+    </div>
+</div>

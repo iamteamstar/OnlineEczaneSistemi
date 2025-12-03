@@ -220,9 +220,11 @@ namespace OnlineEczaneSistemi.Controllers
                 FullName = req.FullName,
                 Email = req.Email,
                 Role = "Courier",
-                IsActive = true,
-                Password = _passwordHasher.HashPassword(new User(), "123456")
+                IsActive = true
             };
+
+            var hasher = new PasswordHasher<User>();
+            user.Password = hasher.HashPassword(user, req.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -230,9 +232,8 @@ namespace OnlineEczaneSistemi.Controllers
             return RedirectToAction("CourierRequests");
         }
 
-        // -------------------------------------------------------
-        // 📌 REJECT REQUESTS
-        // -------------------------------------------------------
+
+
         public async Task<IActionResult> RejectPharmacy(int id)
         {
             var req = await _context.PharmacyRegistrationRequests.FindAsync(id);
