@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineEczaneSistemi.Models
 {
@@ -22,6 +23,13 @@ namespace OnlineEczaneSistemi.Models
 
         [Required, MaxLength(20)]
         public string TaxNumber { get; set; } // Vergi No
+
+        [Required, MinLength(6)]
+        public string Password { get; set; }
+
+        [NotMapped]
+        [Compare("Password", ErrorMessage = "Parolalar uyuşmuyor.")]
+        public string ConfirmPassword { get; set; }
 
         // Pending | Approved | Rejected
         [Required]

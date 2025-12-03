@@ -8,31 +8,40 @@
 </head>
 <h2 class="mb-4"></h2>
 
+
 <div class="login-container">
     <div class="login-card">
         <h2>Giriş Yap</h2>
         <form asp-action="Login" method="post">
+            <input type="hidden" name="role" value="@ViewBag.Role" />
+
             <div asp-validation-summary="All" class="text-danger"></div>
+
             <div class="form-group mb-3">
                 <label asp-for="Email">E-Posta</label>
                 <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
             <div class="form-group mb-3">
                 <label asp-for="Password">Parola</label>
                 <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group form-check mb-3">
-                <input asp-for="RememberMe" class="form-check-input" />
-                <label asp-for="RememberMe" class="form-check-label">Beni Hatırla</label>
-            </div>
+
             <button type="submit" class="btn btn-success">Giriş Yap</button>
+
             <div class="register-link">
                 Hesabınız yok mu?
-                <a asp-action="Register">Kayıt Ol</a>
+                <a asp-controller="Account"
+                   asp-action="Register"
+                   asp-route-role="@ViewBag.Role"
+                   class="text-success">
+                    Kayıt Ol
+                </a>
+
+
             </div>
         </form>
+
     </div>
 </div>
 

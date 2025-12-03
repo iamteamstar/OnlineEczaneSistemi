@@ -12,6 +12,10 @@
     <div class="register-card">
 
         <form asp-action="Register" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="role" value="@ViewBag.Role" />
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group mb-3">
                 <label asp-for="FullName">Ad Soyad</label>
@@ -39,6 +43,7 @@
                 <span asp-validation-for="ProfileImage" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+
             <div class="login-link">
                 Zaten hesabınız var mı?
                 <a asp-action="Login">Giriş Yap</a>

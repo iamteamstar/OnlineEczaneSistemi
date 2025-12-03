@@ -14,6 +14,7 @@ namespace OnlineEczaneSistemi.Controllers
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
         private readonly PasswordHasher<User> _passwordHasher = new();
+
         public AdminController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
@@ -21,28 +22,22 @@ namespace OnlineEczaneSistemi.Controllers
         }
 
         // -------------------------------------------------------
-        // 📌 DASHBOARD (Yeni rollerle genişletildi!)
+        // 📌 DASHBOARD
         // -------------------------------------------------------
         public async Task<IActionResult> Dashboard()
         {
-            var model = new AdminDashboard();
-
-            model.TotalUsers = await _context.Users.CountAsync();
-            model.ActiveUsers = await _context.Users.Where(u => u.IsActive).CountAsync();
-            model.PassiveUsers = await _context.Users.Where(u => !u.IsActive).CountAsync();
-            model.AdminCount = await _context.Users.Where(u => u.Role == "Admin").CountAsync();
-
-            model.AdminRoleCount = await _context.Users.CountAsync(u => u.Role == "Admin");
-            model.UserRoleCount = await _context.Users.CountAsync(u => u.Role == "User");
-
-            // Yeni roller
-            model.PharmacyRoleCount = await _context.Users.CountAsync(u => u.Role == "Pharmacy");
-            model.CourierRoleCount = await _context.Users.CountAsync(u => u.Role == "Courier");
-
-            model.LastUsers = await _context.Users
-                .OrderByDescending(u => u.CreatedAt)
-                .Take(5)
-                .ToListAsync();
+            var model = new AdminDashboard
+            {
+                TotalUsers = await _context.Users.CountAsync(),
+                ActiveUsers = await _context.Users.CountAsync(u => u.IsActive),
+                PassiveUsers = await _context.Users.CountAsync(u => !u.IsActive),
+                AdminCount = await _context.Users.CountAsync(u => u.Role == "Admin"),
+                AdminRoleCount = await _context.Users.CountAsync(u => u.Role == "Admin"),
+                UserRoleCount = await _context.Users.CountAsync(u => u.Role == "User"),
+                PharmacyRoleCount = await _context.Users.CountAsync(u => u.Role == "Pharmacy"),
+                CourierRoleCount = await _context.Users.CountAsync(u => u.Role == "Courier"),
+                LastUsers = await _context.Users.OrderByDescending(u => u.CreatedAt).Take(5).ToListAsync()
+            };
 
             var today = DateTime.Now.Date;
 
@@ -60,45 +55,31 @@ namespace OnlineEczaneSistemi.Controllers
         }
 
         // -------------------------------------------------------
-        // 📌 KULLANICI LİSTELEME (Pharmacy & Courier eklenmesine hazır)
+        // 📌 USERS LIST
         // -------------------------------------------------------
         public async Task<IActionResult> Index(string search, string role, string status)
         {
             var query = _context.Users.AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
-            {
-                query = query.Where(u =>
-                    u.FullName.Contains(search) ||
-                    u.Email.Contains(search));
-            }
+                query = query.Where(u => u.FullName.Contains(search) || u.Email.Contains(search));
 
             if (!string.IsNullOrEmpty(role) && role != "all")
-            {
                 query = query.Where(u => u.Role == role);
-            }
 
             if (!string.IsNullOrEmpty(status) && status != "all")
-            {
-                if (status == "active")
-                    query = query.Where(u => u.IsActive);
-                else if (status == "passive")
-                    query = query.Where(u => !u.IsActive);
-            }
+                query = query.Where(u => status == "active" ? u.IsActive : !u.IsActive);
 
-            var users = await query
-                .OrderByDescending(u => u.CreatedAt)
-                .ToListAsync();
-
+            var users = await query.OrderByDescending(u => u.CreatedAt).ToListAsync();
             return View(users);
         }
 
         // -------------------------------------------------------
-        // 📌 KULLANICI DURUMU DEĞİŞTİRME
+        // 📌 TOGGLE STATUS
         // -------------------------------------------------------
         public async Task<IActionResult> ToggleStatus(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
             user.IsActive = !user.IsActive;
@@ -107,9 +88,12 @@ namespace OnlineEczaneSistemi.Controllers
             return RedirectToAction("Index");
         }
 
+        // -------------------------------------------------------
+        // 📌 ROLE CHANGES
+        // -------------------------------------------------------
         public async Task<IActionResult> MakeAdmin(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
             user.Role = "Admin";
@@ -120,7 +104,7 @@ namespace OnlineEczaneSistemi.Controllers
 
         public async Task<IActionResult> MakeUser(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
             user.Role = "User";
@@ -129,9 +113,12 @@ namespace OnlineEczaneSistemi.Controllers
             return RedirectToAction("Index");
         }
 
+        // -------------------------------------------------------
+        // 📌 DETAIL & EDIT
+        // -------------------------------------------------------
         public async Task<IActionResult> Details(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
             return View(user);
@@ -139,8 +126,7 @@ namespace OnlineEczaneSistemi.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
-
+            var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
             return View(user);
@@ -149,7 +135,7 @@ namespace OnlineEczaneSistemi.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, User model, IFormFile? newImage)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
             user.FullName = model.FullName;
@@ -160,8 +146,7 @@ namespace OnlineEczaneSistemi.Controllers
             if (newImage != null)
             {
                 var uploads = Path.Combine(_env.WebRootPath, "uploads", "profiles");
-                if (!Directory.Exists(uploads))
-                    Directory.CreateDirectory(uploads);
+                Directory.CreateDirectory(uploads);
 
                 var fileName = Guid.NewGuid() + Path.GetExtension(newImage.FileName);
                 var filePath = Path.Combine(uploads, fileName);
@@ -173,106 +158,81 @@ namespace OnlineEczaneSistemi.Controllers
             }
 
             await _context.SaveChangesAsync();
-
             return RedirectToAction("Details", new { id = user.UserId });
         }
 
         // -------------------------------------------------------
-        // 📌 ECZANE & KURYE KAYIT TALEBİ YÖNETİMİ
+        // 📌 ECZANE & KURYE REQUESTS
         // -------------------------------------------------------
-
-        // Eczane başvurularını listele
         public async Task<IActionResult> PharmacyRequests()
         {
-            var list = await _context.PharmacyRegistrationRequests
-                .OrderByDescending(x => x.CreatedAt)
-                .ToListAsync();
-
+            var list = await _context.PharmacyRegistrationRequests.OrderByDescending(x => x.CreatedAt).ToListAsync();
             return View(list);
         }
 
-        // Kurye başvurularını listele
         public async Task<IActionResult> CourierRequests()
         {
-            var list = await _context.CourierRegistrationRequests
-                .OrderByDescending(x => x.CreatedAt)
-                .ToListAsync();
-
+            var list = await _context.CourierRegistrationRequests.OrderByDescending(x => x.CreatedAt).ToListAsync();
             return View(list);
         }
 
-        // Eczane başvurusunu onayla
+        // -------------------------------------------------------
+        // 📌 APPROVE PHARMACY
+        // -------------------------------------------------------
         public async Task<IActionResult> ApprovePharmacy(int id)
         {
             var req = await _context.PharmacyRegistrationRequests.FindAsync(id);
             if (req == null) return NotFound();
 
-            if (req.Status != "Pending")
-                return RedirectToAction("PharmacyRequests");
-
             req.Status = "Approved";
 
-            // Eğer aynı email kullanıcıda varsa yeni user oluşturma
-            bool emailExists = await _context.Users.AnyAsync(u => u.Email == req.Email);
-            if (!emailExists)
+            var user = new User
             {
-                var password = GeneratePassword();
+                FullName = req.PharmacyName,
+                Email = req.Email,
+                Role = "Pharmacy",
+                IsActive = true
+            };
 
-                var user = new User
-                {
-                    FullName = req.PharmacyName,
-                    Email = req.Email,
-                    Role = "Pharmacy",
-                    IsActive = true
-                };
+            var hasher = new PasswordHasher<User>();
+            user.Password = hasher.HashPassword(user, req.Password);
+            Console.WriteLine("ADMİN ONAYI - ŞİFRE: " + req.Password);
 
-                // Parola hashleniyor!
-                user.Password = _passwordHasher.HashPassword(user, password);
-
-                _context.Users.Add(user);
-            }
-
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("PharmacyRequests");
         }
 
 
-        // Kurye başvurusunu onayla
+        // -------------------------------------------------------
+        // 📌 APPROVE COURIER
+        // -------------------------------------------------------
         public async Task<IActionResult> ApproveCourier(int id)
         {
             var req = await _context.CourierRegistrationRequests.FindAsync(id);
             if (req == null) return NotFound();
 
-            if (req.Status != "Pending")
-                return RedirectToAction("CourierRequests");
-
             req.Status = "Approved";
 
-            bool emailExists = await _context.Users.AnyAsync(u => u.Email == req.Email);
-            if (!emailExists)
+            var user = new User
             {
-                var password = GeneratePassword();
+                FullName = req.FullName,
+                Email = req.Email,
+                Role = "Courier",
+                IsActive = true,
+                Password = _passwordHasher.HashPassword(new User(), "123456")
+            };
 
-                var user = new User
-                {
-                    FullName = req.FullName,
-                    Email = req.Email,
-                    Role = "Courier",
-                    IsActive = true
-                };
-
-                user.Password = _passwordHasher.HashPassword(user, password);
-
-                _context.Users.Add(user);   
-            }
-
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("CourierRequests");
         }
 
-
+        // -------------------------------------------------------
+        // 📌 REJECT REQUESTS
+        // -------------------------------------------------------
         public async Task<IActionResult> RejectPharmacy(int id)
         {
             var req = await _context.PharmacyRegistrationRequests.FindAsync(id);
@@ -294,13 +254,5 @@ namespace OnlineEczaneSistemi.Controllers
 
             return RedirectToAction("CourierRequests");
         }
-        private string GeneratePassword()
-        {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, 8)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
     }
 }

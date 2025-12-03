@@ -68,6 +68,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGhhcm1hY3lSZXF1ZXN0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Courier/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cmllclxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Courier/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cmllclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -86,6 +90,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Pharmacy/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGhhcm1hY3lcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Pharmacy/RegisterRequest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGhhcm1hY3lcUmVnaXN0ZXJSZXF1ZXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Pharmacy/RegisterSuccess.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGhhcm1hY3lcUmVnaXN0ZXJTdWNjZXNzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Shared/Error.cshtml]

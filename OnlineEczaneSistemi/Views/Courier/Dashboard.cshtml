@@ -1,0 +1,89 @@
+﻿@model List<OnlineEczaneSistemi.Models.Order>
+
+@{
+    ViewData["Title"] = "Kurye Paneli";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-light border-end vh-100 p-3">
+            <h4 class="fw-bold mb-4 text-warning">Kurye Paneli</h4>
+
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="/Courier/Dashboard" class="nav-link active">🚚 Teslimatlar</a></li>
+                <li class="nav-item"><a href="/Account/Profile" class="nav-link">👤 Profilim</a></li>
+            </ul>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="col-md-10 p-4">
+
+            <h2 class="mb-4">Teslimat Listesi</h2>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">Teslimat bekleyen sipariş bulunmuyor.</div>
+            }
+            else
+            {
+                <div class="row">
+
+                    @foreach (var order in Model)
+                    {
+                        <div class="col-md-4 mb-4">
+
+                            <div class="card shadow-sm">
+
+                                <div class="card-header bg-warning">
+                                    <h5 class="mb-0">Sipariş #@order.OrderId</h5>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <p><strong>Hasta:</strong> @order.User.FullName</p>
+                                    <p><strong>Adres:</strong> @order.DeliveryAddress</p>
+
+                                    <p>
+                                        <strong>Durum:</strong>
+                                        @if (order.Status == "WaitingCourier")
+                                        {
+                                            <span class="badge bg-warning text-dark">Teslim Alınacak</span>
+                                        }
+                                        else if (order.Status == "OnTheWay")
+                                        {
+                                            <span class="badge bg-primary">Yolda</span>
+                                        }
+                                    </p>
+
+                                    <a href="https://www.google.com/maps/search/@order.DeliveryAddress"
+                                       target="_blank"
+                                       class="btn btn-outline-primary w-100 mb-2">
+                                        📍 Haritada Aç
+                                    </a>
+
+                                    <a href="/Courier/TakeOrder/@order.OrderId" class="btn btn-success w-100 mb-2">
+                                        🚚 Teslimata Başla
+                                    </a>
+
+                                    <a href="/Courier/Delivered/@order.OrderId" class="btn btn-dark w-100">
+                                        ✔ Teslim Edildi
+                                    </a>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
