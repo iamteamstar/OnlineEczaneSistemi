@@ -92,5 +92,10 @@ namespace OnlineEczaneSistemi.Controllers
         {
             return View();
         }
+        [Authorize(Roles="User")]
+        public async Task<IActionResult> OrderHistory() { 
+            return View();
+
+        }
     }
 }

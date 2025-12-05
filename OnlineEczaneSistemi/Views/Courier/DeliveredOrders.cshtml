@@ -5,13 +5,34 @@
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        Henüz teslim ettiğiniz bir sipariş bulunmuyor.
-    </div>
+    <div class="alert alert-info">Henüz teslim edilen bir sipariş bulunmuyor.</div>
 }
 else
 {
-    <table class="table table-striped shadow-sm">
+    <!-- Kart yapısı -->
+    <div class="row mb-4">
+        @foreach (var order in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        Sipariş #@order.OrderId
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Hasta:</strong> @order.User.FullName</p>
+                        <p><strong>Adres:</strong> @order.DeliveryAddress</p>
+                        <p><strong>Fiyat:</strong> @order.TotalPrice ₺</p>
+                        <p><strong>Teslim:</strong> @order.CreatedAt.ToString("dd.MM.yyyy")</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <hr />
+
+    <!-- Tablo yapısı -->
+    <table class="table table-striped table-bordered">
         <thead class="table-success">
             <tr>
                 <th>#</th>
@@ -22,24 +43,17 @@ else
             </tr>
         </thead>
 
-        <div class="row">
-            @foreach (var order in Model)
+        <tbody>
+            @foreach (var o in Model)
             {
-                <div class="col-md-4">
-                    <div class="card shadow-sm mb-3">
-                        <div class="card-header bg-success text-white">
-                            Sipariş #@order.OrderId
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Hasta:</strong> @order.User.FullName</p>
-                            <p><strong>Adres:</strong> @order.DeliveryAddress</p>
-                            <p><strong>Fiyat:</strong> @order.TotalPrice ₺</p>
-                            <p><strong>Teslim:</strong> @order.CreatedAt.ToString("dd.MM.yyyy")</p>
-                        </div>
-                    </div>
-                </div>
+                <tr>
+                    <td>@o.OrderId</td>
+                    <td>@o.User.FullName</td>
+                    <td>@o.DeliveryAddress</td>
+                    <td>@o.TotalPrice ₺</td>
+                    <td>@o.CreatedAt.ToString("dd.MM.yyyy")</td>
+                </tr>
             }
-        </div>
-
+        </tbody>
     </table>
 }

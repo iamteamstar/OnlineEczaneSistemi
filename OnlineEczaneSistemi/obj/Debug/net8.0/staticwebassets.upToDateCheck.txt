@@ -63,6 +63,7 @@ wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\prescriptions\0a8572b7-48b1-4e83-b604-9b0a6c6c82f3.jpg
+wwwroot\prescriptions\1f640bc1-ec45-42af-8da1-a0994bdde00e.png
 wwwroot\prescriptions\4204d2ce-c89e-4a02-a172-f59bcd99982a.jpg
 wwwroot\prescriptions\90bfbf52-73e5-4c47-8c45-991bb8a0d987.jpg
 wwwroot\prescriptions\d8c971fe-e79a-4064-a127-b386b6bc57b0.png

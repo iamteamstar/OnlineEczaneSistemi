@@ -1,0 +1,94 @@
+﻿@model List<OnlineEczaneSistemi.Models.Order>
+
+<h2>Geçmiş Reçetelerim</h2>
+<hr />
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Henüz geçmiş reçeteniz bulunmuyor.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var order in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Reçete #@order.OrderId</h5>
+                    </div>
+
+                    <div class="card-body">
+                        <p><strong>Eczane:</strong> @(order.Pharmacy?.FullName ?? "Bilinmiyor")</p>
+                        <p><strong>Tarih:</strong> @order.CreatedAt.ToShortDateString()</p>
+                        <p><strong>Durum:</strong> @order.Status</p>
+                        <p><strong>Toplam:</strong> @order.TotalPrice ₺</p>
+
+                        <button class="btn btn-outline-primary w-100"
+                                data-bs-toggle="modal"
+                                data-bs-target="#orderModal@order.OrderId">
+                            Detay
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- MODAL -->
+            <div class="modal fade" id="orderModal@order.OrderId">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Reçete Detayı #@order.OrderId</h5>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <h5>İlaçlar</h5>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>İlaç</th>
+                                        <th>Adet</th>
+                                        <th>Fiyat</th>
+                                        <th>Toplam</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in order.Items)
+                                    {
+                                        <tr>
+                                            <td>@item.MedicineName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.UnitPrice ₺</td>
+                                            <td>@item.Total ₺</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                            @if (!string.IsNullOrEmpty(order.PrescriptionUrl))
+                            {
+                                <p>
+                                    <a href="@order.PrescriptionUrl" target="_blank" class="btn btn-secondary btn-sm">
+                                        Reçete Dosyasını Görüntüle
+                                    </a>
+                                </p>
+                            }
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

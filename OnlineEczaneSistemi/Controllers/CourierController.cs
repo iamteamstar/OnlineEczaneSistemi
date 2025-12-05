@@ -120,6 +120,7 @@ namespace OnlineEczaneSistemi.Controllers
             return RedirectToAction("Dashboard");
         }
 
+
         [Authorize(Roles = "Courier")]
         public async Task<IActionResult> DeliveredOrders()
         {
@@ -127,13 +128,30 @@ namespace OnlineEczaneSistemi.Controllers
 
             var orders = await _context.Orders
                 .Where(o => o.CourierId == courierId && o.Status == "Delivered")
-                .Include(o => o.User)
+                .Include(o => o.User) // Hasta bilgisi geliyor
+                .Include(o => o.Items) // Gerekirse ürünler
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
 
             return View(orders);
         }
 
+
+
+        public async Task<IActionResult> AcceptOrder(int id)
+        {
+            var courierId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            var order = await _context.Orders.FindAsync(id);
+
+            order.CourierId = courierId;   // 🔥 Bu çok önemli
+            order.Status = "OnTheWay";
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Dashboard");
+        }
+    
 
     }
 }
