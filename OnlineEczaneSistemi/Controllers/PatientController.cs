@@ -93,6 +93,7 @@ namespace OnlineEczaneSistemi.Controllers
             return View();
         }
         [Authorize(Roles="User")]
+<<<<<<< HEAD
         [Authorize(Roles = "User")]
         public async Task<IActionResult> OrderHistory()
         {
@@ -126,5 +127,11 @@ namespace OnlineEczaneSistemi.Controllers
         }
 
 
+=======
+        public async Task<IActionResult> OrderHistory() { 
+            return View();
+
+        }
+>>>>>>> 485a043a20a3fab05386ab88d98f212b435cc932
     }
 }

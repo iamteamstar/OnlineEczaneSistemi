@@ -100,10 +100,13 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< HEAD
 [C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Patient/OrderDetail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxPcmRlckRldGFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+=======
+>>>>>>> 485a043a20a3fab05386ab88d98f212b435cc932
 [C:/Users/technopc/Desktop/Full Stack Web/Backend/Files/OnlineEczaneSistemi/OnlineEczaneSistemi/Views/Patient/OrderHistory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxPcmRlckhpc3RvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

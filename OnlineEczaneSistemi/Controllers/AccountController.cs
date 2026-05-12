@@ -232,8 +232,12 @@ namespace OnlineEczaneSistemi.Controllers
         }
         public IActionResult Index()
         {
+<<<<<<< HEAD
             ViewBag.deger="mvc project çalışıyor";
 			return View();
+=======
+            return View();
+>>>>>>> 485a043a20a3fab05386ab88d98f212b435cc932
         }
     }
 }

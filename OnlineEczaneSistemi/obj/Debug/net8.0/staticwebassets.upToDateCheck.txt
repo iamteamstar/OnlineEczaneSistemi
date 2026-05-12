@@ -65,8 +65,11 @@ wwwroot\lib\jquery\LICENSE.txt
 wwwroot\prescriptions\0a8572b7-48b1-4e83-b604-9b0a6c6c82f3.jpg
 wwwroot\prescriptions\1f640bc1-ec45-42af-8da1-a0994bdde00e.png
 wwwroot\prescriptions\4204d2ce-c89e-4a02-a172-f59bcd99982a.jpg
+<<<<<<< HEAD
 wwwroot\prescriptions\61c0222a-b58c-41b2-a450-91e8f99cdca2.jpeg
 wwwroot\prescriptions\756ebf1c-65ca-489f-822b-ae8338a72934.png
+=======
+>>>>>>> 485a043a20a3fab05386ab88d98f212b435cc932
 wwwroot\prescriptions\90bfbf52-73e5-4c47-8c45-991bb8a0d987.jpg
 wwwroot\prescriptions\d8c971fe-e79a-4064-a127-b386b6bc57b0.png
 wwwroot\prescriptions\f06e3746-f3e1-4efe-bbbf-2a3541ae2219.jpg
