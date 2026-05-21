@@ -48,5 +48,11 @@ Kurye için admin paneli:
 
 <img width="636" height="456" alt="Ekran görüntüsü 2026-05-20 132836" src="https://github.com/user-attachments/assets/96f1cb5d-d33c-45cc-8b17-5d4fef3be9c4" /> <img width="649" height="497" alt="Ekran görüntüsü 2026-05-20 132840" src="https://github.com/user-attachments/assets/492d88dc-4e82-4a6e-b6a6-2aa7fd1b3ab1" />
 
+projede her isteğin kullandığı cpu, kaplanan memory, ne kadar sürdüğü gibi analizler için monitoring uygulandı. Monitoring işlemi için prometheus ve görselleştirme için grafana kulllanıldı 
+
+<img width="1600" height="859" alt="image" src="https://github.com/user-attachments/assets/038c727a-eb56-4b5e-9f12-11a91d484d92" />
+
+<img width="1435" height="690" alt="Ekran görüntüsü 2026-05-21 151115" src="https://github.com/user-attachments/assets/a21541db-6232-433c-b1b8-b694c839e8b8" />
+
 
 
