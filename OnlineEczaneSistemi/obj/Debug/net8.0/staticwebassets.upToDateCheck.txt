@@ -63,17 +63,18 @@ wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\prescriptions\0a8572b7-48b1-4e83-b604-9b0a6c6c82f3.jpg
+wwwroot\prescriptions\167a2165-3eb4-43c0-bd19-5432cb1e9ca5.png
 wwwroot\prescriptions\1f640bc1-ec45-42af-8da1-a0994bdde00e.png
 wwwroot\prescriptions\4204d2ce-c89e-4a02-a172-f59bcd99982a.jpg
-<<<<<<< HEAD
 wwwroot\prescriptions\61c0222a-b58c-41b2-a450-91e8f99cdca2.jpeg
 wwwroot\prescriptions\756ebf1c-65ca-489f-822b-ae8338a72934.png
-=======
->>>>>>> 485a043a20a3fab05386ab88d98f212b435cc932
 wwwroot\prescriptions\90bfbf52-73e5-4c47-8c45-991bb8a0d987.jpg
+wwwroot\prescriptions\a2c337b9-4cbc-4267-af3f-91a26c6679ef.png
+wwwroot\prescriptions\b8620ca4-e07e-4b71-a6b5-06c1231aa866.png
 wwwroot\prescriptions\d8c971fe-e79a-4064-a127-b386b6bc57b0.png
 wwwroot\prescriptions\f06e3746-f3e1-4efe-bbbf-2a3541ae2219.jpg
 wwwroot\uploads\profiles\1bc99a92-d827-488a-87a0-905c851a8c80.jpg
+wwwroot\uploads\profiles\3d77248c-774c-45f4-9d86-8d5c94200a62.jpg
 wwwroot\uploads\profiles\4b25eb2c-a596-4a49-9152-fb810920a0bf.jpg
 wwwroot\uploads\profiles\ad77510a-9f00-44a0-9878-c0f6bc2c274f.jpg
 wwwroot\uploads\profiles\b0369469-a1e2-4cab-867c-0f35b18a7192.jpg
