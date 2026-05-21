@@ -138,3 +138,8 @@ C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\Onlin
 C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.pdb
 C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.genruntimeconfig.cache
 C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\ref\OnlineEczaneSistemi.dll
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\bin\Debug\net8.0\HealthChecks.SqlServer.dll
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\bin\Debug\net8.0\Prometheus.NetStandard.dll
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\bin\Debug\net8.0\Prometheus.AspNetCore.dll
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\obj\Debug\net8.0\OnlineEczaneSistemi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\technopc\Desktop\Full Stack Web\Backend\Files\OnlineEczaneSistemi\OnlineEczaneSistemi\bin\Debug\net8.0\Monitoring\Grafana\dashboards\eczane-dashboard.json

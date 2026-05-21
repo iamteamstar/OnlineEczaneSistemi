@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("3436c408-a1da-4f03-8254-2e25e9d341bf")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("OnlineEczaneSistemi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa66e306e78ff8a6126537284ba7689e02fb4408")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2c8a06a2109539cc9b09ca7bbde6f1a9632bc27b")]
 [assembly: System.Reflection.AssemblyProductAttribute("OnlineEczaneSistemi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OnlineEczaneSistemi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
